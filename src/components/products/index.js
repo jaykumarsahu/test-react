@@ -1,83 +1,69 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import API from '../../services/api';
+import { Table } from 'react-bootstrap';
+import { Redirect } from 'react-router';
 
 export default class Products extends Component {
 
   constructor(props) {
     super(props);
     this.state = { products: [] };
+    this.sessionToken = localStorage.getItem('sessionToken');
   }
 
-  handleSubmit(event) {
-    const url = "http://localhost:3000/api/v1/sessions/login";
-    const data = { email: this.state.email, password: this.state.password }
-    axios.post(url, data)
-    .then( response => response.data ).then( data => console.log(data))
-    .catch(function (error_response) {
-      if (error_response.response){
-        console.log(error_response.response.data.error )
-      }else{
-        console.log(error_response.message)
-      }
-    });
+  componentWillMount() {
+    if (this.sessionToken){
+      axios.get(API.ProductIndexUrl(), {
+        'headers': { 'Authorization': this.sessionToken }
+      })
+      .then((resp) => resp.data)
+      .then((data) => {
+        if (data.status === "success"){
+          this.setState({products: data.products});
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+    }
   }
 
-  login_form(){
-    let { email, password } = this.state;
-
+  productRow(product){
     return(
-      <div className="card-body">
-        <form className="form">
-          <div className="form-group">
-            <label>Username</label>
-            <input
-              type="text"
-              className="form-control form-control-lg rounded-0"
-              name="email"
-              value={email}
-              onChange={(e) => this.handleInput('email', e.target.value)} />
-          </div>
-          <div className="form-group">
-            <label>Password</label>
-            <input
-              type="password"
-              className="form-control form-control-lg rounded-0"
-              name="password"
-              value={password}
-              onChange={(e) => this.handleInput('password', e.target.value)} />
-          </div>
-
-          <input
-            type="Login"
-            className="btn btn-success btn-lg float-right"
-            value="Submit"
-            onClick={this.handleSubmit.bind(this)} />
-        </form>
-      </div>
-    )
+      <tr key={product.id}>
+        <td>{product.id}</td>
+        <td>{product.name}</td>
+        <td>{product.description}</td>
+        <td>{product.price}</td>
+      </tr>
+    );
   }
 
   render() {
-    return (
-      <div className="container py-5">
-        <div className="row">
-          <div className="col-md-12">
-            <h2 className="text-center text-white mb-4">Login</h2>
-            <div className="row">
-              <div className="col-md-6 mx-auto">
-                <span className="anchor"></span>
-                <div className="card rounded-0">
-                  <div className="card-header">
-                    <h3 className="mb-0">Login</h3>
-                  </div>
-                  { this.login_form() }
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+    if(this.sessionToken) {
+      return (
+        <Table striped bordered condensed hover>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              this.state.products.map((product) => {
+                return (this.productRow(product));
+              })
+            }
+          </tbody>
+        </Table>
+      );
+    }else{
+      return <Redirect to='/signin'/>;
+    }
   }
 }
 

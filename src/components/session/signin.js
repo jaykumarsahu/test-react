@@ -1,20 +1,15 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-// import logo from './logo.svg';
+import API from '../../services/api';
+import { Redirect } from 'react-router';
 
-
-
-
-
-
-
-export default class Session extends Component {
+export default class SessionIn extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
       email: "abc@jay.com",
-      password: "12345678"
+      password: "12345678",
     };
   }
 
@@ -25,10 +20,13 @@ export default class Session extends Component {
   }
 
   handleSubmit(event) {
-    const url = "http://localhost:3001/api/v1/sessions/login";
+    const url = API.loginUrl();
     const data = { email: this.state.email, password: this.state.password }
     axios.post(url, data)
-    .then( response => response.data ).then( data => console.log(data))
+    .then( response => response.data ).then( (data) => {
+      localStorage.setItem('sessionToken', data.auth_token);
+      this.props.history.push("/");
+    })
     .catch(function (error_response) {
       if (error_response.response){
         console.log(error_response.response.data.error )
@@ -74,26 +72,28 @@ export default class Session extends Component {
   }
 
   render() {
-    return (
-      <div className="container py-5">
-        <div className="row">
-          <div className="col-md-12">
-            <h2 className="text-center text-white mb-4">Login</h2>
-            <div className="row">
-              <div className="col-md-6 mx-auto">
-                <span className="anchor"></span>
-                <div className="card rounded-0">
-                  <div className="card-header">
-                    <h3 className="mb-0">Login</h3>
+    let sessionToken = localStorage.getItem('sessionToken');
+    if(sessionToken) {
+      return <Redirect to='/'/>;
+    }else{
+      return (
+        <div className="container py-5">
+          <div className="row">
+            <div className="col-md-12">
+              <h2 className="text-center text-white mb-4">Login</h2>
+              <div className="row">
+                <div className="col-md-6 mx-auto">
+                  <span className="anchor"></span>
+                  <div className="card rounded-0">
+                    { this.login_form() }
                   </div>
-                  { this.login_form() }
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 }
 
