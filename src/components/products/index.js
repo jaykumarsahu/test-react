@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import API from '../../services/api';
 import { Table } from 'react-bootstrap';
 import { Redirect } from 'react-router';
+import AJAX from '../../services/ajax';
 
 export default class Products extends Component {
 
@@ -12,20 +12,13 @@ export default class Products extends Component {
     this.sessionToken = localStorage.getItem('sessionToken');
   }
 
-  componentWillMount() {
+  async componentWillMount() {
     if (this.sessionToken){
-      axios.get(API.ProductIndexUrl(), {
-        'headers': { 'Authorization': this.sessionToken }
-      })
-      .then((resp) => resp.data)
-      .then((data) => {
-        if (data.status === "success"){
-          this.setState({products: data.products});
-        }
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+      const header = { 'headers': { 'Authorization': this.sessionToken } };
+      const response = await AJAX.get(API.ProductIndexUrl, header);
+      if (response.status === "success"){
+        this.setState({products: response.products});
+      }
     }
   }
 

@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import API from '../../services/api';
+import AJAX from '../../services/ajax';
 import { Redirect } from 'react-router';
+import LoginForm from './login-form';
 
-export default class SessionIn extends Component {
+export default class SignIn extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      email: "abc@jay.com",
+      email: "abc@kk.com",
       password: "12345678",
     };
   }
@@ -19,56 +20,15 @@ export default class SessionIn extends Component {
     this.setState(hash);
   }
 
-  handleSubmit(event) {
-    const url = API.loginUrl();
+  async handleSubmit(event) {
+    const url = API.loginUrl;
     const data = { email: this.state.email, password: this.state.password }
-    axios.post(url, data)
-    .then( response => response.data ).then( (data) => {
-      localStorage.setItem('sessionToken', data.auth_token);
+    const response = await AJAX.post(url, data);
+
+    if(response.auth_token){
+      localStorage.setItem('sessionToken', response.auth_token);
       this.props.history.push("/");
-    })
-    .catch(function (error_response) {
-      if (error_response.response){
-        console.log(error_response.response.data.error )
-      }else{
-        console.log(error_response.message)
-      }
-    });
-  }
-
-  login_form(){
-    let { email, password } = this.state;
-
-    return(
-      <div className="card-body">
-        <form className="form">
-          <div className="form-group">
-            <label>Username</label>
-            <input
-              type="text"
-              className="form-control form-control-lg rounded-0"
-              name="email"
-              value={email}
-              onChange={(e) => this.handleInput('email', e.target.value)} />
-          </div>
-          <div className="form-group">
-            <label>Password</label>
-            <input
-              type="password"
-              className="form-control form-control-lg rounded-0"
-              name="password"
-              value={password}
-              onChange={(e) => this.handleInput('password', e.target.value)} />
-          </div>
-
-          <input
-            type="Login"
-            className="btn btn-success btn-lg float-right"
-            value="Submit"
-            onClick={this.handleSubmit.bind(this)} />
-        </form>
-      </div>
-    )
+    }
   }
 
   render() {
@@ -85,7 +45,12 @@ export default class SessionIn extends Component {
                 <div className="col-md-6 mx-auto">
                   <span className="anchor"></span>
                   <div className="card rounded-0">
-                    { this.login_form() }
+                    <LoginForm
+                      email={this.state.email}
+                      password={this.state.password}
+                      handleInput={this.handleInput}
+                      handleSubmit={this.handleSubmit.bind(this)}
+                    />
                   </div>
                 </div>
               </div>

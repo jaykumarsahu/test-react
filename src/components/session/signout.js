@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
 
-export default class SessionOut extends Component {
+export default class SignOut extends Component {
 
   constructor(props) {
     super(props);

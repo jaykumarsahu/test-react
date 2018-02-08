@@ -37,18 +37,12 @@ const Header = () => (
     </Navbar.Header>
 
     <Navbar.Collapse>
-      {rightNav()}
+      <RightNav />
     </Navbar.Collapse>
   </Navbar>
 );
 
-
-
-
-
-
-
-const rightNav = () => {
+const RightNav = () => {
   let sessionToken = localStorage.getItem('sessionToken');
 
   if(sessionToken){

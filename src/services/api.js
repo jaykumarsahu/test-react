@@ -1,22 +1,10 @@
 const url = "http://localhost:3001";
 
-export default class API{
-
-	static url(){
-		return url;
-	}
-
-	static registrationUrl(){
-		return url + "/api/v1/registrations";
-
-	}
-
-	static loginUrl(){
-		return url + "/api/v1/sessions/login";
-	}
-
-	static ProductIndexUrl(){
-		return url + "/api/v1/products";
-	}
-
+const API = {
+	url: url,
+	registrationUrl: url + "/api/v1/registrations",
+	loginUrl: url + "/api/v1/sessions/login",
+	ProductIndexUrl: url + "/api/v1/products",
 }
+
+export default API;
