@@ -43,28 +43,27 @@ const Header = () => (
 );
 
 const RightNav = () => {
-  let sessionToken = localStorage.getItem('sessionToken');
+  const sessionToken = localStorage.getItem('sessionToken');
 
-  if(sessionToken){
-    return(
+  if (sessionToken) {
+    return (
       <Nav pullRight>
         <NavItem href="/signout">
           Sign Out
         </NavItem>
       </Nav>
     );
-  }else{
-    return(
-      <Nav pullRight>
-        <NavItem href="/signin">
-          Sign in
-        </NavItem>
-        <NavItem href="/signup">
-          Sign up
-        </NavItem>
-      </Nav>
-    );
   }
-}
+  return (
+    <Nav pullRight>
+      <NavItem href="/signin">
+          Sign in
+      </NavItem>
+      <NavItem href="/signup">
+          Sign up
+      </NavItem>
+    </Nav>
+  );
+};
 
 export default Header;

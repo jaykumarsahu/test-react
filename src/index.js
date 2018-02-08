@@ -9,15 +9,15 @@ import Registration from './components/registration';
 // import Home from './components/home';
 import Header from './pages/header';
 
-import { Switch, Route } from 'react-router'
-import { BrowserRouter } from 'react-router-dom'
+import { Switch, Route } from 'react-router';
+import { BrowserRouter } from 'react-router-dom';
 
 import registerServiceWorker from './registerServiceWorker';
 
 const Root = () => (
   <BrowserRouter>
     <div>
-      <Header/>
+      <Header />
       <Switch>
         <Route exact path="/" component={Products} />
         <Route exact path="/signup" component={Registration} />
@@ -27,7 +27,7 @@ const Root = () => (
       </Switch>
     </div>
   </BrowserRouter>
-)
+);
 
 ReactDOM.render(<Root />, document.getElementById('root'));
 registerServiceWorker();

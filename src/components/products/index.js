@@ -5,7 +5,6 @@ import { Redirect } from 'react-router';
 import AJAX from '../../services/ajax';
 
 export default class Products extends Component {
-
   constructor(props) {
     super(props);
     this.state = { products: [] };
@@ -13,17 +12,17 @@ export default class Products extends Component {
   }
 
   async componentWillMount() {
-    if (this.sessionToken){
-      const header = { 'headers': { 'Authorization': this.sessionToken } };
+    if (this.sessionToken) {
+      const header = { headers: { Authorization: this.sessionToken } };
       const response = await AJAX.get(API.ProductIndexUrl, header);
-      if (response.status === "success"){
-        this.setState({products: response.products});
+      if (response.status === 'success') {
+        this.setState({ products: response.products });
       }
     }
   }
 
-  productRow(product){
-    return(
+  productRow(product) {
+    return (
       <tr key={product.id}>
         <td>{product.id}</td>
         <td>{product.name}</td>
@@ -34,7 +33,7 @@ export default class Products extends Component {
   }
 
   render() {
-    if(this.sessionToken) {
+    if (this.sessionToken) {
       return (
         <Table striped bordered condensed hover>
           <thead>
@@ -47,17 +46,13 @@ export default class Products extends Component {
           </thead>
           <tbody>
             {
-              this.state.products.map((product) => {
-                return (this.productRow(product));
-              })
+              this.state.products.map(product => (this.productRow(product)))
             }
           </tbody>
         </Table>
       );
-    }else{
-      return <Redirect to='/signin'/>;
     }
+    return <Redirect to="/signin" />;
   }
 }
-
 
