@@ -1,37 +1,12 @@
 import React from 'react';
 import { Nav, Navbar, NavItem } from 'react-bootstrap';
-// import logo from './logo.svg';
-
-// const Header = () => (
-//   <Navbar inverse collapseOnSelect>
-//     <Navbar.Header>
-//       <Navbar.Brand>
-//         <a href="/">Test-React</a>
-//       </Navbar.Brand>
-//       <Navbar.Toggle />
-//     </Navbar.Header>
-
-//     <Navbar.Collapse>
-//       <Nav>
-//         <NavItem href="#">
-//           Home
-//         </NavItem>
-//         <NavItem href="#">
-//           About
-//         </NavItem>
-//       </Nav>
-
-//       {rightNav()}
-
-//     </Navbar.Collapse>
-//   </Navbar>
-// );
+import { Link } from 'react-router-dom';
 
 const Header = () => (
   <Navbar inverse collapseOnSelect>
     <Navbar.Header>
       <Navbar.Brand>
-        <a href="/">Test-React</a>
+        <Link to="/">Test-React</Link>
       </Navbar.Brand>
       <Navbar.Toggle />
     </Navbar.Header>
@@ -42,26 +17,26 @@ const Header = () => (
   </Navbar>
 );
 
+const NavLink = ({ name, path }) => (
+  <NavItem componentClass={Link} href={path} to={path}>
+    {name}
+  </NavItem>
+);
+
 const RightNav = () => {
   const sessionToken = localStorage.getItem('sessionToken');
 
   if (sessionToken) {
     return (
       <Nav pullRight>
-        <NavItem href="/signout">
-          Sign Out
-        </NavItem>
+        <NavLink name="Sign Out" path="/signout" />
       </Nav>
     );
   }
   return (
     <Nav pullRight>
-      <NavItem href="/signin">
-          Sign in
-      </NavItem>
-      <NavItem href="/signup">
-          Sign up
-      </NavItem>
+      <NavLink path="/signin" name="Sign in" />
+      <NavLink path="/signup" name="Sign up" />
     </Nav>
   );
 };

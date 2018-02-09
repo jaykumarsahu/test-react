@@ -1,10 +1,14 @@
 import React from 'react';
-import { Alert } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 
-const Header = (text) => (
-  <Alert bsStyle="warning">
-    {text}
-  </Alert>;
-);
+export const alertError = (msg) => {
+  const msgInHTML = textToHTML(msg);
+  toast.error(({ closeToast }) => msgInHTML);
+};
 
-export default Header;
+export const alertSuccess = (msg) => {
+  const msgInHTML = textToHTML(msg);
+  toast.info(({ closeToast }) => msgInHTML);
+};
+
+const textToHTML = text => text.split('\n').map((item, key) => <span key={key}>{item}<br /></span>);

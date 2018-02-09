@@ -8,7 +8,6 @@ const FormField = ({
     <input
       type={type}
       className="form-control form-control-lg rounded-0"
-      name={fieldName}
       value={formData[fieldName]}
       onChange={e => handleInput(fieldName, e.target.value)}
     />
@@ -48,7 +47,6 @@ export const form = props => (
       <label>Address</label>
       <textarea
         className="form-control form-control-lg rounded-0"
-        name="address"
         value={props.address}
         onChange={e => props.handleInput('address', e.target.value)}
       />
@@ -106,4 +104,3 @@ export const form = props => (
 );
 
 export default form;
-

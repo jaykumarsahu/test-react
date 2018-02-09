@@ -9,7 +9,6 @@ export const loginForm = ({
       <input
         type="text"
         className="form-control form-control-lg rounded-0"
-        name="email"
         value={email}
         onChange={e => handleInput('email', e.target.value)}
       />
@@ -19,7 +18,6 @@ export const loginForm = ({
       <input
         type="password"
         className="form-control form-control-lg rounded-0"
-        name="password"
         value={password}
         onChange={e => handleInput('password', e.target.value)}
       />

@@ -8,20 +8,22 @@
     "bootstrap": "3.3.7",
     "eslint": "^4.17.0",
     "react": "^16.2.0",
+    "react-block-ui": "^1.1.1",
     "react-bootstrap": "^0.32.1",
     "react-dom": "^16.2.0",
+    "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "1.1.0"
+    "react-scripts": "1.1.0",
+    "react-toastify": "^3.3.2",
+    "redux": "^3.7.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "lint": "node_modules/eslint/bin/eslint.js --fix src/components "
-
-
+    "lint": "node_modules/eslint/bin/eslint.js --fix src "
   },
   "devDependencies": {
     "eslint-config-airbnb": "^16.1.0",

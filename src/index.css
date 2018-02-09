@@ -1,4 +1,5 @@
 @import '~bootstrap/dist/css/bootstrap.css';
+@import '~react-block-ui/style.css';
 
 body {
   margin: 0;
