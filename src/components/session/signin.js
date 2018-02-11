@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import API from '../../services/api';
 import AJAX from '../../services/ajax';
-import { Redirect } from 'react-router';
 import LoginForm from './login-form';
 import { alertError, alertSuccess } from '../../pages/alert';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import isUserSignedIn from '../../hooks/user-checker'
 
 class SignIn extends Component {
   constructor(props) {
@@ -18,28 +18,23 @@ class SignIn extends Component {
     this.props.onChange(fieldName, value);
   }
 
+  componentWillMount() {
+    isUserSignedIn(this.props.history);
+  }
+
   async handleSubmit() {
     const url = API.loginUrl;
     const response = await AJAX.post(url, { ...this.props.loginData });
     if (response && response.status === 'FAILED') { alertError(response.error); }
-    if (response.auth_token) {
+    if (response && response.auth_token) {
       localStorage.setItem('sessionToken', response.auth_token);
       this.props.history.push('/');
-      alertSuccess('Done');
+      alertSuccess('User has been signed in successfully.');
     }
   }
 
-  // componentWillMount() {console.log("componentWillMount")}
-  // componentWillUnmount() {console.log("componentWillUnmount")}
-  // componentWillUpdate() {console.log("componentWillUpdate")}
-  // componentDidMount() {console.log("componentDidMount")}
-  // componentDidUpdate() {console.log("componentDidUpdate")}
-  // componentWillReceiveProps() {console.log("componentWillReceiveProps")}
-
   render() {
     const { email, password } = this.props.loginData;
-    const sessionToken = localStorage.getItem('sessionToken');
-    if (sessionToken) { return <Redirect to="/" />; }
     return (
       <div className="container py-5">
         <div className="row">

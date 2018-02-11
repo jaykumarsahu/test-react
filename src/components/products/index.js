@@ -3,6 +3,7 @@ import API from '../../services/api';
 import { Table } from 'react-bootstrap';
 import { Redirect } from 'react-router';
 import AJAX from '../../services/ajax';
+import { alertError } from '../../pages/alert';
 
 export default class Products extends Component {
   constructor(props) {
@@ -15,13 +16,15 @@ export default class Products extends Component {
     if (this.sessionToken) {
       const header = { headers: { Authorization: this.sessionToken } };
       const response = await AJAX.get(API.ProductIndexUrl, header);
-      if (response.status === 'success') {
+      if (response.status === 'SUCCESS') {
+
         this.setState({ products: response.products });
       }
     }
   }
 
   productRow(product) {
+    // debugger
     return (
       <tr key={product.id}>
         <td>{product.id}</td>
@@ -52,6 +55,7 @@ export default class Products extends Component {
         </Table>
       );
     }
+    alertError('Please sign in first.')
     return <Redirect to="/signin" />;
   }
 }

@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import API from '../../services/api';
 import AJAX from '../../services/ajax';
 import Form from './form';
-import { alertError } from '../../pages/alert';
+import { alertError, alertSuccess } from '../../pages/alert';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import BlockUi from 'react-block-ui';
+import isUserSignedIn from '../../hooks/user-checker'
 
 class Registration extends Component {
   constructor(props) {
@@ -19,18 +20,30 @@ class Registration extends Component {
     this.props.onChange(fieldName, value);
   }
 
+  componentWillMount() {
+    isUserSignedIn(this.props.history);
+  }
+
   async handleSubmit() {
     const url = API.registrationUrl;
     const data = { user: { ...this.props.formData } };
     this.setState({ loading: true });
     const response = await AJAX.post(url, data);
     this.setState({ loading: false });
-    if (response && response.status === 'FAILED') {
-      alertError(response.error);
+    if (response && response.status === 'SUCCESS') {
+      this.props.history.push('/signin');
+      alertSuccess('User has been created successfully. \nPlease sign in here.');
     }
+    if (response && response.status === 'FAILED') { alertError(response.error); }
   }
 
   render() {
+    // const sessionToken = localStorage.getItem('sessionToken');
+    // if (sessionToken) {
+    //   alertError("User has already signed in.");
+    //   return <Redirect to="/" />;
+    // }
+    // isUserSignedIn()
     return (
       <BlockUi
         tag="div"

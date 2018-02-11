@@ -26,13 +26,12 @@ const formData = (stateData = initialState, action) => {
   }
 };
 
-const abc = {
+const loginInitialState = {
   email: 'user@example.com',
   password: '12345678',
 };
 
-const loginData = (stateData = abc, action) => {
-  console.log(action);
+const loginData = (stateData = loginInitialState, action) => {
   switch (action.type) {
     case 'CHANGE':
       return {
