@@ -6,7 +6,7 @@ import { alertError, alertSuccess } from '../../pages/alert';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import BlockUi from 'react-block-ui';
-import isUserSignedIn from '../../hooks/user-checker'
+import isUserSignedIn from '../../hooks/user-checker';
 
 class Registration extends Component {
   constructor(props) {
@@ -38,12 +38,6 @@ class Registration extends Component {
   }
 
   render() {
-    // const sessionToken = localStorage.getItem('sessionToken');
-    // if (sessionToken) {
-    //   alertError("User has already signed in.");
-    //   return <Redirect to="/" />;
-    // }
-    // isUserSignedIn()
     return (
       <BlockUi
         tag="div"

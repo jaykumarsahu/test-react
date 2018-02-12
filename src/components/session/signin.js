@@ -5,7 +5,7 @@ import LoginForm from './login-form';
 import { alertError, alertSuccess } from '../../pages/alert';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import isUserSignedIn from '../../hooks/user-checker'
+import isUserSignedIn from '../../hooks/user-checker';
 
 class SignIn extends Component {
   constructor(props) {

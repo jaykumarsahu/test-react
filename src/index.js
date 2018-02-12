@@ -27,7 +27,7 @@ const Root = () => (
         <Switch>
           <Route exact path="/" component={Products} />
           <Route exact path="/signup" component={Registration} />
-          <Route exact path="/signin" component={ SignIn} />
+          <Route exact path="/signin" component={SignIn} />
           <Route exact path="/signout" component={SignOut} />
           <Route render={() => <h1>not found</h1>} />
         </Switch>

@@ -4,11 +4,12 @@ import { Table } from 'react-bootstrap';
 import { Redirect } from 'react-router';
 import AJAX from '../../services/ajax';
 import { alertError } from '../../pages/alert';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-export default class Products extends Component {
+class Products extends Component {
   constructor(props) {
     super(props);
-    this.state = { products: [] };
     this.sessionToken = localStorage.getItem('sessionToken');
   }
 
@@ -17,14 +18,12 @@ export default class Products extends Component {
       const header = { headers: { Authorization: this.sessionToken } };
       const response = await AJAX.get(API.ProductIndexUrl, header);
       if (response.status === 'SUCCESS') {
-
-        this.setState({ products: response.products });
+        this.props.updateProducts(response.products);
       }
     }
   }
 
   productRow(product) {
-    // debugger
     return (
       <tr key={product.id}>
         <td>{product.id}</td>
@@ -48,15 +47,24 @@ export default class Products extends Component {
             </tr>
           </thead>
           <tbody>
-            {
-              this.state.products.map(product => (this.productRow(product)))
-            }
+            { this.props.products.map(product => (this.productRow(product))) }
           </tbody>
         </Table>
       );
     }
-    alertError('Please sign in first.')
+    alertError('Please sign in first.');
     return <Redirect to="/signin" />;
   }
 }
 
+const mapStateToProps = state => ({ products: state.products });
+
+const mapDispatchToProps = dispatch => ({
+  updateProducts: value => dispatch({ type: 'UPDATE', value }),
+});
+
+Products.contextTypes = {
+  products: PropTypes.array,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Products);

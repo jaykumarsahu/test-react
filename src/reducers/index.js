@@ -14,6 +14,15 @@ const initialState = {
   password_confirmation: '',
 };
 
+const products = (stateData = [], action) => {
+  switch (action.type) {
+    case 'UPDATE':
+      return action.value;
+    default:
+      return stateData;
+  }
+};
+
 const formData = (stateData = initialState, action) => {
   switch (action.type) {
     case 'CHANGE':
@@ -46,7 +55,7 @@ const loginData = (stateData = loginInitialState, action) => {
 const reducers = {
   formData,
   loginData,
-
+  products,
 };
 
 export default combineReducers(reducers);
